@@ -19,10 +19,10 @@ An example output with three gpfs filesystems is given below.
 You are probably asking:
 
 - Doesn't gpfs give warnings when available space is low? (Why yes, it can)
-- Couldn't I gleam this information from teh other plugin? (Why yes, you could)
+- Couldn't I gleam this information from the other plugin? (Why yes, you could)
 - Could I not just type df at a prompt? (Of course you can)
 
-And I would say, well, it was really simple to graph the available space in munin, and it gives a nice trending picture (gee, available space on gpfs2 is going _up?_) Honestly, it is nice to have a graph, and also cool in that it turns yellow when the available space drops below the warning levels (set in the plugin). 
+And I would say, well, it was really simple to graph the available space in munin, and it gives a nice trending picture (whoa, available space on gpfs2 is going _up?_) Honestly, it is nice to have a graph, and also cool in that it turns yellow when the available space drops below the warning levels (which are set in the plugin, read the plugin for more information). 
 
 # How to install it.
 
@@ -36,7 +36,7 @@ Link it in the /etc/munin/plugins directory (e.g. ln -s /usr/share/munin/plugins
 
 # How to change it, etc. 
 
-There are docs in the **gpfsavail** plugin on changing it, basically you will **need** to change the filesystem names if your are not "gpfs1", "gpfs2", "gpfs3". A simple search/replace on the gpfsavail plugin for those three names will get you there. 
+There are docs in the **gpfsavail** plugin on changing it, basically you will **need** to change the filesystem names if yours are not "gpfs1", "gpfs2", "gpfs3". A simple search/replace on the gpfsavail plugin for those three names will get you there. 
 
 
 # LICENSE
