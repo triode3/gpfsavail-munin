@@ -1,0 +1,50 @@
+#!/bin/sh
+# -*- sh -*-
+
+set -e
+#
+#
+# Note, my our has three GPFS, so we are listing three here, CHANGE them to reflect
+# your own mount points. Use search/replace in vim or sed or whatever to do the entire
+# plugin at once.
+#
+# Also of note, warnings are added (for our own system needs) you can also
+# change that to taste. Recall from the munin docs that 
+# value.warning nnnn will go off when the value is > nnnn
+# value.warning xxxx: will go off when the value is < xxxx
+# value.warning xxxx:nnnn will go off when the value is between xxxx and nnnn
+# Since this is graphing _available_ space, we want a warn when it falls below 
+# the warning values, so we are using nnnn:
+#
+case $1 in 
+    config)
+        cat <<'EOM'
+graph_title GPFS Available space 
+graph_category disk
+graph_vlabel Bytes Available
+gpfs1.label GPFS1 Available space 
+gpfs1.info GPFS1 Available space from df
+gpfs1.warning 220000000000000:
+gpfs2.label GPFS2 Available space
+gpfs2.info GPFS2 Available space from df
+gpfs2.warning 260000000000000:
+gpfs3.label GPFS3 Available space
+gpfs3.info GPFS3 Available space from df
+gpfs3.warning 20000000000000:
+EOM
+    exit 0;;
+esac
+#
+# Note change gpfs{1,2,3} to be your own mount points.
+#
+# Note a typical df output will look like:
+# df /gpfs1
+# Filesystem         1K-blocks         Used    Available Use% Mounted on
+# gpfs1          1103134064640 479692615680 623441448960  44% /gpfs1
+# We wish to ignore lines that do not begin with gpfs1, so we just look in column 1.
+# Note also, df returns a value _in_ 1024 blocks, so we multiply by 1024.
+#
+printf "gpfs1.value " ; df /gpfs1 | awk '{ if ($1 == "gpfs1") {print $4*1024} }'
+printf "gpfs2.value " ; df /gpfs2 | awk '{ if ($1 == "gpfs2") {print $4*1024} }'
+printf "gpfs3.value " ; df /gpfs3 | awk '{ if ($1 == "gpfs3") {print $4*1024} }'
+
